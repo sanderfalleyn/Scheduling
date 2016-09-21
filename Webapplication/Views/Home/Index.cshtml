@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@model List<Webapplication.Models.CalculationDto>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>Sum</th>
+                    <th>DateCreated</th>
+                    <th>DateProcessed</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in @Model)
+            {
+                    <tr>
+                        <td>@row.Id</td>
+                        <td>@row.A</td>
+                        <td>@row.B</td>
+                        <td>@row.Sum</td>
+                        <td>@row.DateCreated</td>
+                        <td>@row.DateProcessed</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
