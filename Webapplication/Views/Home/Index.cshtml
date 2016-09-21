@@ -3,6 +3,7 @@
 }
 @model List<Webapplication.Models.CalculationDto>
 
+@Html.ActionLink("Generate new calculation","GenerateNewCalculation")
 
 <div class="row">
     <div class="col-md-12">
@@ -18,7 +19,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var row in @Model)
+                @foreach (var row in @Model.OrderBy(x => x.Id))
             {
                     <tr>
                         <td>@row.Id</td>

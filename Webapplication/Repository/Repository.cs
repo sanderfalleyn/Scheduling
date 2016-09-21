@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using Hangfire;
 using Webapplication.Models;
 
 namespace Webapplication.Repository
@@ -49,6 +50,24 @@ namespace Webapplication.Repository
                 calculations.Add(organisatie);
             }
             return calculations;
+        }
+
+        [AutomaticRetry(Attempts = 0)]
+        public void SaveNewCalculation(int a, int b)
+        {
+            var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["scheduling"].ConnectionString;
+            var query = $@"INSERT INTO Calculations([A],[B],[DateCreated]) VALUES (@A,@B,@DateCreated)";
+
+            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, cn))
+            {
+                cmd.Parameters.Add("@A", SqlDbType.Int).Value = a;
+                cmd.Parameters.Add("@B", SqlDbType.Int, 50).Value = b;
+                cmd.Parameters.Add("@DateCreated", SqlDbType.DateTime, 50).Value = DateTime.Now;
+                cn.Open();
+                cmd.ExecuteNonQuery();
+                cn.Close();
+            }
         }
     }
 }
