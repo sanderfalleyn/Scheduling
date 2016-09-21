@@ -21,7 +21,7 @@ namespace Webapplication.Controllers
             var repo = new Repository.Repository();
             var a = randomGenerator.Next(0, 1000);
             var b = randomGenerator.Next(0, 1000);
-            BackgroundJob.Enqueue(() => repo.SaveNewCalculation(a, b));
+            BackgroundJob.Schedule(() => repo.SaveNewCalculation(a, b),TimeSpan.FromSeconds(10));
 
             return RedirectToAction("Index");
         }
