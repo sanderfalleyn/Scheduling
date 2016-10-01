@@ -21,7 +21,7 @@ namespace Webapplication
             app.UseHangfireDashboard();
             app.UseHangfireServer();
 
-            RecurringJob.AddOrUpdate(() => Job.Calculate(), Cron.Minutely);
+
 
 
         }

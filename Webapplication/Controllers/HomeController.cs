@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Hangfire;
+using Webapplication.Jobs;
 
 namespace Webapplication.Controllers
 {
@@ -21,8 +22,8 @@ namespace Webapplication.Controllers
             var repo = new Repository.Repository();
             var a = randomGenerator.Next(0, 1000);
             var b = randomGenerator.Next(0, 1000);
-            BackgroundJob.Schedule(() => repo.SaveNewCalculation(a, b),TimeSpan.FromSeconds(10));
-
+            var id = BackgroundJob.Schedule(() => repo.SaveNewCalculation(a, b),TimeSpan.FromSeconds(10));
+            BackgroundJob.ContinueWith(id,() => Job.Calculate());
             return RedirectToAction("Index");
         }
     }
