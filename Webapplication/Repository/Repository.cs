@@ -69,5 +69,26 @@ namespace Webapplication.Repository
                 cn.Close();
             }
         }
+
+
+        public void UpdateCalculation(int id, int som)
+        {
+            var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["scheduling"].ConnectionString;
+            var query = $@"UPDATE [dbo].[Calculations]
+                      SET [Som] = @Som
+                      ,[DateProcessed] = @Date
+                 WHERE Id = @Id";
+
+            using (SqlConnection cn = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(query, cn))
+            {
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                cmd.Parameters.Add("@Som", SqlDbType.Int).Value = som;
+                cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = DateTime.Now;
+                cn.Open();
+                cmd.ExecuteNonQuery();
+                cn.Close();
+            }
+        }
     }
 }

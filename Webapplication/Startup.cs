@@ -1,8 +1,10 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using Hangfire;
 using Microsoft.Owin;
 using Owin;
 using Webapplication;
+using Webapplication.Jobs;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -18,6 +20,10 @@ namespace Webapplication
 
             app.UseHangfireDashboard();
             app.UseHangfireServer();
+
+            RecurringJob.AddOrUpdate(() => Job.Calculate(), Cron.Minutely);
+
+
         }
     }
 }
